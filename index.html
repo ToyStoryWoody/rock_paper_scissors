@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Rock Paper Scissors</title>
+</head>
+<body>
+  <script>
+    function game() {
+        let playerScore = 0;
+        let computerScore = 0;
+
+        for (round = 1; round <= 5; round++) {
+            let playerSelection = capitalize(prompt("This is Round " + round + "! Play rock, paper, or scissors"));
+            let computerSelection = capitalize(computerPlay());
+
+            if (isValidPlay(playerSelection)) {
+                let outcome = playRound(playerSelection, computerSelection);
+
+                switch (outcome) {
+                    case "Tie":
+                        console.log("It's a tie for Round " + round + "! You both played " + playerSelection);
+                        break;
+                    case "Player Win":
+                        console.log("You win Round " + round + "! " + playerSelection + " beats " + computerSelection);
+                        playerScore++;
+                        break;
+                    case "Computer Win":
+                        console.log("You lose Round " + round + "! " + computerSelection + " beats " + playerSelection);
+                        computerScore++;
+                        break;
+                }
+            } else {
+                console.log("You didn't play rock, paper, or scissors! You lose by default.");
+                computerScore++;
+            }
+        }
+
+        if (playerScore === computerScore) {
+            console.log("It's a tie! Your score: " + playerScore + " Computer's score: " + computerScore);
+        } else if (playerScore > computerScore) {
+            console.log("You Win! Your score: " + playerScore + " Computer's score: " + computerScore);
+        } else {
+            console.log("You Lose! Your score: " + playerScore + " Computer's score: " + computerScore);
+        }
+
+        function isValidPlay(play) {
+            play = play.toLowerCase();
+
+            if (play == "rock" || play == "paper" || play == "scissors") {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        function capitalize(phraseToCapitalize) {
+            phraseToCapitalize = phraseToCapitalize.toLowerCase();
+
+            let firstChar = phraseToCapitalize[0].toUpperCase();
+            let restOfphraseToCapitalize = phraseToCapitalize.substr(1);
+
+            return firstChar + restOfphraseToCapitalize;
+        }
+    }
+
+    function computerPlay() {
+        let randomNum = Math.floor(Math.random() * 3);
+        switch (randomNum) {
+            case 0:
+                return "Rock";
+                break;
+            case 1:
+                return "Paper";
+                break;
+            case 2:
+                return "Scissors";
+                break;
+        }
+    }
+
+    function playRound(playerSelection, computerSelection) {
+        if (playerSelection == computerSelection) {
+            return "Tie";
+        }
+        else if ((playerSelection == "Rock" && computerSelection == "Scissors") || 
+            (playerSelection == "Paper" && computerSelection == "Rock") ||
+            (playerSelection == "Scissors" && computerSelection == "Paper")) { //All win scenarios
+                return "Player Win";
+            }
+        else {
+                return "Computer Win";
+        }
+    }
+  </script>
+</body>
+</html>
